@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.ParticleSystem;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerMovement: MonoBehaviour
 {
 
     private PlayerInput input = null;
@@ -17,7 +18,7 @@ public class PlayerManager : MonoBehaviour
     private bool isFacingRight = true;
 
     //Jump
-    private float jumpForce = 30f;
+    private float jumpForce = 10f;
     public Transform groundCheck;
     public LayerMask groundLayer;
     private bool doubleJump = false;
@@ -34,11 +35,21 @@ public class PlayerManager : MonoBehaviour
     private bool isWallJumping;
     private float wallJumpingDuration =0.4f;
     private float wallJumpingTime = 0.2f;
-    private Vector2 wallJumpingPower = new Vector2(5,5);
+    private Vector2 wallJumpingPower = new Vector2(7,13);
+
+    //Particle
+    public ParticleSystem particle;
     // [SerializeField] 
 
+    public static PlayerMovement instance = null;
     private void Awake()
     {
+        if (instance != null)
+        {
+            Debug.LogError("PlayerManager is already set ");
+            return;
+        }
+        instance = this;
         input = new PlayerInput();
     }
 
@@ -51,7 +62,7 @@ public class PlayerManager : MonoBehaviour
     {
         input.Disable();
     }
-
+     
     // Start is called before the first frame update
     void Start()
     {
@@ -65,7 +76,6 @@ public class PlayerManager : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Velocity " + rb.velocity);
         if (IsGrounded())
         {
             doubleJump = true;
@@ -91,19 +101,24 @@ public class PlayerManager : MonoBehaviour
     }
     public void Jump(InputAction.CallbackContext context)
     {
+        if (!enabled)
+            return;
         if(!IsGrounded())
             WallJump();
         if (context.performed && (IsGrounded() || doubleJump) && !isWallJumping)
         {
-            Debug.Log("jump " + rb.velocity);
+
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             doubleJump = !doubleJump;
+            particle.Play();
         }
 
 
     }
     public void Dash(InputAction.CallbackContext context)
     {
+        if (!enabled)
+            return;
         if (context.performed && canDash)
         {
             StartCoroutine(DashCoroutine());
@@ -126,6 +141,8 @@ public class PlayerManager : MonoBehaviour
         Vector3 localScale = transform.localScale;
         localScale.x *= -1;
         transform.localScale = localScale;
+        if(IsGrounded())
+            particle.Play();
     }
     private void WallJump()
     {
@@ -133,9 +150,8 @@ public class PlayerManager : MonoBehaviour
         {
             isWallJumping = true;
             rb.velocity = new Vector2(-transform.localScale.x * wallJumpingPower.x, wallJumpingPower.y);
-            Debug.Log("Wall jump " + rb.velocity);
             Flip();
-           
+            particle.Play();
             Invoke(nameof(StopWallJump),wallJumpingDuration);
         }
     }
@@ -157,11 +173,17 @@ public class PlayerManager : MonoBehaviour
         rb.gravityScale = 0f;
         rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
         Debug.Log(rb.velocity);
+        particle.Play();
         yield return new WaitForSeconds(dashingTime);
         rb.gravityScale = originalGravity;
         isDashing = false;
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
+    }
+
+    public void AddSpeed(float speedAdd)
+    {
+        speed += speedAdd;
     }
     //Collision
 
