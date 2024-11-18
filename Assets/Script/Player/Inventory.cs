@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
     public static Inventory instance = null;
 
+    [Header("Coins")]
     private int coinsCount;
-
     [SerializeField] private TextMeshProUGUI coinsText;
+    [Header("Gameobject")]
     [SerializeField] private GameObject goInventory;
-    private List<Item> content = new List<Item>();
+    [SerializeField] private List<GameObject> caseInventoryList = new List<GameObject>();
+    [Header("Item List")]
+    [SerializeField] private List<Item> content = new List<Item>();
+    [Header("Item select")]
     private int itemSelect = 0;
+    [SerializeField] private GameObject goItemSelect;
     private void Awake()
     {
         if(instance != null)
@@ -30,33 +37,64 @@ public class Inventory : MonoBehaviour
         coinsText.text = coinsCount.ToString();
     }
 
-    void RefreshInventory()
+    void RefreshInventoryUI()
     {
-        int firstItem = itemSelect - 2;
-        int lastItem = itemSelect + 2;
-        foreach(GameObject caseInv in goInventory.transform)
+        int iCase = 0;
+        foreach(GameObject caseGo in caseInventoryList)
         {
-            //caseInv.transform.GetChild(2).GetComponent<Image>() = ;
+            var img = caseGo.transform.GetChild(2).GetComponent<Image>();
+            if(iCase<content.Count)
+            {
+                img.sprite = content[iCase].icon;
+                img.enabled = true;
+            }
+            else
+                img.enabled = false;
+            iCase++;
         }
     }
-    public void ConsumeItem()
+    public void AddItem(Item item)
     {
+        content.Add(item);
+        RefreshInventoryUI();
+    }
+    public void ConsumeItem(InputAction.CallbackContext context)
+    {
+        if (!context.performed)
+            return;
+        
         if (content.Count == 0)
             return;
+        Debug.Log("Consume Item");
         Item currentItem = content[itemSelect];
         PlayerHealth.instance.HealPlayer(currentItem.hpGiven);
         PlayerMovement.instance.AddSpeed(currentItem.speedGiven);
 
         content.Remove(currentItem);
+        RefreshInventoryUI();
     }
-    public void GetNextItem()
+    public void GetNextItem(InputAction.CallbackContext context)
     {
-        if(itemSelect< content.Count-1)
+        if(!context.performed) 
+            return;
+        Debug.Log("Next Item");
+        if (itemSelect< content.Count-1)
+        {
             itemSelect++;
+            goItemSelect.transform.SetParent(caseInventoryList[itemSelect].transform);
+        }
+            
     }
-    public void GetPreviousItem()
+    public void GetPreviousItem(InputAction.CallbackContext context)
     {
-        if(itemSelect>0)
+        if (!context.performed)
+            return;
+        Debug.Log("Previous Item");
+        if (itemSelect>0)
+        {
             itemSelect--;
+            goItemSelect.transform.SetParent(caseInventoryList[itemSelect].transform);
+        }
+           
     }
 }

@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 4
   name: Invincible Potion
   description: Invisible Potion
-  icon: {fileID: 0}
+  icon: {fileID: -2008069883, guid: aa03de59c9985154baaff20121ecdaa4, type: 3}
   hpGiven: 0
   speedGiven: 0
   effectDuration: 5

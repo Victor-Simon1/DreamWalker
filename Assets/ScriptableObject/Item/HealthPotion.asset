@@ -15,7 +15,9 @@ MonoBehaviour:
   id: 1
   name: HealthPotion
   description: Potion
-  icon: {fileID: 0}
+  icon: {fileID: -1075923590, guid: aa03de59c9985154baaff20121ecdaa4, type: 3}
   hpGiven: 25
   speedGiven: 0
-  speedDuration: 0
+  effectDuration: 0
+  isInvisible: 0
+  isInvincible: 0

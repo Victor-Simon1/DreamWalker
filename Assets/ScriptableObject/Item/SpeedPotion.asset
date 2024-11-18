@@ -15,7 +15,9 @@ MonoBehaviour:
   id: 2
   name: Speed Potion
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: -1336613558, guid: aa03de59c9985154baaff20121ecdaa4, type: 3}
   hpGiven: 0
   speedGiven: 1
   effectDuration: 10
+  isInvisible: 0
+  isInvincible: 0
