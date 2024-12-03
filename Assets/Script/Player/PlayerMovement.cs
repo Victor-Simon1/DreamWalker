@@ -17,19 +17,20 @@ public class PlayerMovement: MonoBehaviour
     private float speed = 8f;
     private bool isFacingRight = true;
 
-    //Jump
+    [Header("Jump")]
     private float jumpForce = 10f;
     public Transform groundCheck;
     public LayerMask groundLayer;
     private bool doubleJump = false;
 
-    //Dash
+    [Header("Dash")]
     [SerializeField] private bool isDashing;
     [SerializeField] private bool canDash = true;
     private float dashingPower = 24f;
     private float dashingTime = 0.2f;
     private float dashingCooldown = 1f;
-    //Wall Jump
+
+    [Header("WallJump")]
     public Transform wallCheck;
     public LayerMask wallLayer;
     private bool isWallJumping;
@@ -37,7 +38,11 @@ public class PlayerMovement: MonoBehaviour
     private float wallJumpingTime = 0.2f;
     private Vector2 wallJumpingPower = new Vector2(7,13);
 
-    //Particle
+    [Header("JumpBuffering")]
+    float jumpBufferTime = 0.2f;
+    float jumpBufferCounter;
+
+    [Header("Particle")]
     public ParticleSystem particle;
     // [SerializeField] 
 
@@ -50,10 +55,10 @@ public class PlayerMovement: MonoBehaviour
             return;
         }
         instance = this;
-        input = new PlayerInput();
+        //input = 
     }
 
-    private void OnEnable()
+   /* private void OnEnable()
     {
         input.Enable();
     }
@@ -62,7 +67,7 @@ public class PlayerMovement: MonoBehaviour
     {
         input.Disable();
     }
-     
+     */
     // Start is called before the first frame update
     void Start()
     {
@@ -88,38 +93,41 @@ public class PlayerMovement: MonoBehaviour
         {
             return;
         }
-        rb.velocity = new Vector2(horizontal *speed,rb.velocity.y);
+        Move();
+        Jump();
+        Dash();
         if (!isFacingRight && horizontal > 0f)
             Flip();
         else if (isFacingRight && horizontal < 0f)
             Flip();
     }
     //Action
-    public void Move(InputAction.CallbackContext context)
+    public void Move()
     {
-        horizontal = context.ReadValue<Vector2>().x;
+        horizontal = UserInput.instance.MoveInput.x;
+        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
     }
-    public void Jump(InputAction.CallbackContext context)
+    public void Jump()
     {
-        if (!enabled)
-            return;
-        if(!IsGrounded())
-            WallJump();
-        if (context.performed && (IsGrounded() || doubleJump) && !isWallJumping)
+        if(UserInput.instance.JumpInput)
         {
+            if (!IsGrounded())
+                WallJump();
+            if ((IsGrounded() || doubleJump) && !isWallJumping)
+            {
 
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            doubleJump = !doubleJump;
-            particle.Play();
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                doubleJump = !doubleJump;
+                particle.Play();
+            }
         }
+        
 
 
     }
-    public void Dash(InputAction.CallbackContext context)
+    public void Dash()
     {
-        if (!enabled)
-            return;
-        if (context.performed && canDash)
+        if (UserInput.instance.DashInput && canDash)
         {
             StartCoroutine(DashCoroutine());
         }

@@ -8,7 +8,7 @@ public class PickUpItem : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !Inventory.instance.isFull)
         {
             Inventory.instance.AddItem(item);
             Destroy(gameObject);

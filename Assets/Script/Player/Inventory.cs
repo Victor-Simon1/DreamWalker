@@ -17,6 +17,8 @@ public class Inventory : MonoBehaviour
     [SerializeField] private List<GameObject> caseInventoryList = new List<GameObject>();
     [Header("Item List")]
     [SerializeField] private List<Item> content = new List<Item>();
+    private int maxSize = 5;
+    [SerializeField] public bool isFull = false;
     [Header("Item select")]
     private int itemSelect = 0;
     [SerializeField] private GameObject goItemSelect;
@@ -30,7 +32,15 @@ public class Inventory : MonoBehaviour
         instance = this;
    
     }
-
+    private void Update()
+    {
+        if (UserInput.instance.ConsumeItemInput)
+            ConsumeItem();
+        if (UserInput.instance.NextCaseInput)
+            GetNextItem();
+        if (UserInput.instance.PreviousCaseInput)
+            GetPreviousItem();
+    }
     public void AddCoins(int count)
     {
         coinsCount += count;
@@ -55,45 +65,58 @@ public class Inventory : MonoBehaviour
     }
     public void AddItem(Item item)
     {
-        content.Add(item);
-        RefreshInventoryUI();
+        if(content.Count < maxSize)
+        {
+            content.Add(item);
+            RefreshInventoryUI();
+        }
+        isFull = content.Count >= maxSize;
+          
     }
-    public void ConsumeItem(InputAction.CallbackContext context)
+    public void ConsumeItem()
     {
-        if (!context.performed)
-            return;
-        
         if (content.Count == 0)
             return;
         Debug.Log("Consume Item");
-        Item currentItem = content[itemSelect];
-        PlayerHealth.instance.HealPlayer(currentItem.hpGiven);
-        PlayerMovement.instance.AddSpeed(currentItem.speedGiven);
+        if(itemSelect <= content.Count)
+        {
+            Item currentItem = content[itemSelect];
+            if (currentItem)
+            {
+                PlayerHealth.instance.HealPlayer(currentItem.hpGiven);
+                PlayerMovement.instance.AddSpeed(currentItem.speedGiven);
 
-        content.Remove(currentItem);
-        RefreshInventoryUI();
+                content.Remove(currentItem);
+                isFull = content.Count >= maxSize;
+                RefreshInventoryUI();
+            }
+            else
+                Debug.Log("No Item in case " + itemSelect);
+        }
+        else
+            Debug.Log("No Item in case " + itemSelect);
     }
-    public void GetNextItem(InputAction.CallbackContext context)
+
+
+    public void GetNextItem()
     {
-        if(!context.performed) 
-            return;
         Debug.Log("Next Item");
-        if (itemSelect< content.Count-1)
+        if (itemSelect< maxSize-1)
         {
             itemSelect++;
             goItemSelect.transform.SetParent(caseInventoryList[itemSelect].transform);
+            goItemSelect.transform.localPosition = Vector3.zero;
         }
             
     }
-    public void GetPreviousItem(InputAction.CallbackContext context)
+    public void GetPreviousItem()
     {
-        if (!context.performed)
-            return;
         Debug.Log("Previous Item");
         if (itemSelect>0)
         {
             itemSelect--;
             goItemSelect.transform.SetParent(caseInventoryList[itemSelect].transform);
+            goItemSelect.transform.localPosition = Vector3.zero;
         }
            
     }
