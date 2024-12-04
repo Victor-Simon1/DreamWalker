@@ -286,7 +286,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             // Configure the rebind.
             m_RebindOperation = action.PerformInteractiveRebinding(bindingIndex)
                 .WithControlsExcluding("<Mouse>")
-                .WithCancelingThrough("Keyboard/escape>")
+                .WithCancelingThrough("<Keyboard>/escape")
                 .OnCancel(
                     operation =>
                     {
@@ -452,6 +452,13 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         [SerializeField]
         private TMPro.TextMeshProUGUI m_RebindText;
 
+        [Tooltip("Optional bool feidl who allows you to override the actuib label with your own text")]
+        public bool m_OverrideLabel;
+
+        [Tooltip("Text who should displayed for the action")]
+        [SerializeField]
+        private string m_ActionLabelString;
+
         [Tooltip("Event that is triggered when the way the binding is display should be updated. This allows displaying "
             + "bindings in custom ways, e.g. using images instead of text.")]
         [SerializeField]
@@ -487,7 +494,14 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             if (m_ActionLabel != null)
             {
                 var action = m_Action?.action;
-                m_ActionLabel.text = action != null ? action.name : string.Empty;
+                if (!m_OverrideLabel)
+                {
+                    m_ActionLabel.text = action != null ? action.name : string.Empty;
+                    m_ActionLabelString = string.Empty;
+                }
+                   
+                else
+                    m_ActionLabel.text = m_ActionLabelString;
             }
         }
 
