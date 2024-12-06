@@ -41,12 +41,19 @@ public class Inventory : MonoBehaviour
         if (UserInput.instance.PreviousCaseInput)
             GetPreviousItem();
     }
+    /// <summary>
+    /// Add coins to the inventory
+    /// </summary>
+    /// <param name="count"></param>
     public void AddCoins(int count)
     {
         coinsCount += count;
         coinsText.text = coinsCount.ToString();
     }
 
+    /// <summary>
+    /// Refresh the UI of the inventory,call after something add or delete from the inventory
+    /// </summary>
     void RefreshInventoryUI()
     {
         int iCase = 0;
@@ -63,6 +70,11 @@ public class Inventory : MonoBehaviour
             iCase++;
         }
     }
+
+    /// <summary>
+    /// Add en item if the inventory is not full
+    /// </summary>
+    /// <param name="item"></param>
     public void AddItem(Item item)
     {
         if(content.Count < maxSize)
@@ -73,6 +85,9 @@ public class Inventory : MonoBehaviour
         isFull = content.Count >= maxSize;
           
     }
+    /// <summary>
+    /// Consume the item where the selection is set,nothing append if no item 
+    /// </summary>
     public void ConsumeItem()
     {
         if (content.Count == 0)
@@ -97,7 +112,9 @@ public class Inventory : MonoBehaviour
             Debug.Log("No Item in case " + itemSelect);
     }
 
-
+    /// <summary>
+    /// Go to the right and stop when there is no more case
+    /// </summary>
     public void GetNextItem()
     {
         Debug.Log("Next Item");
@@ -109,6 +126,9 @@ public class Inventory : MonoBehaviour
         }
             
     }
+    /// <summary>
+    /// Go to the left and stop when there is no more case
+    /// </summary>
     public void GetPreviousItem()
     {
         Debug.Log("Previous Item");

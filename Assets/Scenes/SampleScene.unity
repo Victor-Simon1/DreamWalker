@@ -5930,6 +5930,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1197849915299870753, guid: 29934bb1ba398574eb7e2381fb662854, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1265613121921004523, guid: 29934bb1ba398574eb7e2381fb662854, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 6209349b6b53b44468160a5139e6d4fc, type: 2}
+    - target: {fileID: 1265613121921004523, guid: 29934bb1ba398574eb7e2381fb662854, type: 3}
+      propertyPath: m_ColliderPaths.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1265613121921004523, guid: 29934bb1ba398574eb7e2381fb662854, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.size
       value: 4
@@ -12458,13 +12470,41 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7105472937832835006, guid: 767f375c27a30d54a9731bcc8e655c3b, type: 3}
+      propertyPath: speed
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105472937832835006, guid: 767f375c27a30d54a9731bcc8e655c3b, type: 3}
       propertyPath: particle
       value: 
       objectReference: {fileID: 1441394776}
     - target: {fileID: 7105472937832835006, guid: 767f375c27a30d54a9731bcc8e655c3b, type: 3}
+      propertyPath: velPower
+      value: 0.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105472937832835006, guid: 767f375c27a30d54a9731bcc8e655c3b, type: 3}
+      propertyPath: jumpForce
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105472937832835006, guid: 767f375c27a30d54a9731bcc8e655c3b, type: 3}
+      propertyPath: jumpVueGO
+      value: 
+      objectReference: {fileID: 6384522815409793782, guid: 4c944617f8a035c46baa0d8153d5073c, type: 3}
+    - target: {fileID: 7105472937832835006, guid: 767f375c27a30d54a9731bcc8e655c3b, type: 3}
       propertyPath: wallCheck
       value: 
       objectReference: {fileID: 499407189}
+    - target: {fileID: 7105472937832835006, guid: 767f375c27a30d54a9731bcc8e655c3b, type: 3}
+      propertyPath: acceleration
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105472937832835006, guid: 767f375c27a30d54a9731bcc8e655c3b, type: 3}
+      propertyPath: gravityScale
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105472937832835006, guid: 767f375c27a30d54a9731bcc8e655c3b, type: 3}
+      propertyPath: decceleration
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 7105472937832835006, guid: 767f375c27a30d54a9731bcc8e655c3b, type: 3}
       propertyPath: wallLayer.m_Bits
       value: 64

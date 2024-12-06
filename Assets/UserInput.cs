@@ -39,7 +39,9 @@ public class UserInput : MonoBehaviour
     {
         UpdateInputs();
     }
-
+    /// <summary>
+    /// Setup the input of the player
+    /// </summary>
     private void SetupInputActions()
     {
         moveAction = playerInput.actions["Movement"];
@@ -50,7 +52,9 @@ public class UserInput : MonoBehaviour
         nextCaseAction = playerInput.actions["NextCase"];
         consumeItemAction = playerInput.actions["ConsumeItem"];
     }
-
+    /// <summary>
+    /// Update the input of the player
+    /// </summary>
     private void UpdateInputs()
     {
         MoveInput = moveAction.ReadValue<Vector2>();
