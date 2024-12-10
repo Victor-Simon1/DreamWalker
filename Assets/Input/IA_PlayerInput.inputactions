@@ -1,5 +1,5 @@
 {
-    "name": "PlayerInput",
+    "name": "IA_PlayerInput",
     "maps": [
         {
             "name": "Player",
@@ -63,6 +63,15 @@
                     "name": "Pause",
                     "type": "Button",
                     "id": "82ae6311-76e5-47f4-8c2a-1bb269b1b909",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChangeCheckPoint",
+                    "type": "Button",
+                    "id": "be595b12-226d-43a9-925d-8b8718c899dd",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -243,6 +252,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "efe6a849-8859-4754-bb28-c2f0375d2de4",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeCheckPoint",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

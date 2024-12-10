@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
@@ -56,12 +57,17 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    private void Death()
+    public void Death()
     {
         Debug.Log("Le joueur est mort !");
         //block movements
         PlayerMovement.instance.enabled = false;
+        PlayerMovement.instance.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         //block interactions
+
+        //Death Screen
+        GameObject[] deathScreenGo = GameObject.FindObjectsOfType<GameObject>(true).Where(sr => !sr.gameObject.activeInHierarchy && sr.CompareTag("DeathScreen")).ToArray();
+        deathScreenGo[0].gameObject.SetActive(true);
     }
     public void HealPlayer(int amount)
     {

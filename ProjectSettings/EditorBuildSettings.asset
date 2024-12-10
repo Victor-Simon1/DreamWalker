@@ -8,4 +8,28 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 052917987e1da4249b1078aac12ee122
+  - enabled: 1
+    path: Assets/Scenes/Level/Blue.unity
+    guid: 5580fc79832d8cc4e8c1605faa0243e7
+  - enabled: 1
+    path: Assets/Scenes/Level/Green.unity
+    guid: 8076f812763ce8045b4f572fb1c405ae
+  - enabled: 1
+    path: Assets/Scenes/Level/Orange.unity
+    guid: c9f85343648dbec43b8d569d3bf58878
+  - enabled: 1
+    path: Assets/Scenes/Level/Pink.unity
+    guid: bf09120f1626f5744b3246bd677a5132
+  - enabled: 1
+    path: Assets/Scenes/Level/Purple.unity
+    guid: 2c0ad0922deb11f4ab4f12ca09443794
+  - enabled: 1
+    path: Assets/Scenes/Level/Red.unity
+    guid: bbd0b5c5926a9194abcb215e400091cf
+  - enabled: 1
+    path: Assets/Scenes/Level/Yellow.unity
+    guid: 86f53a341cfc9f6449a977a589e901ef
   m_configObjects: {}

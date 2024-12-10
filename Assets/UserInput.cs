@@ -14,7 +14,7 @@ public class UserInput : MonoBehaviour
     public bool NextCaseInput { get; private set; }
     public bool PreviousCaseInput { get; private set; }
     public bool ConsumeItemInput { get; private set; }
-
+    public bool ChangeCheckpointInput { get; private set; }
     private PlayerInput playerInput;
 
     private InputAction moveAction;
@@ -24,6 +24,8 @@ public class UserInput : MonoBehaviour
     private InputAction previousCaseAction;
     private InputAction nextCaseAction;
     private InputAction consumeItemAction;
+    private InputAction changeCheckpointAction;
+
     void Awake()
     {
         if(instance == null) 
@@ -51,6 +53,7 @@ public class UserInput : MonoBehaviour
         previousCaseAction = playerInput.actions["PreviousCase"];
         nextCaseAction = playerInput.actions["NextCase"];
         consumeItemAction = playerInput.actions["ConsumeItem"];
+        changeCheckpointAction = playerInput.actions["ChangeCheckpoint"];
     }
     /// <summary>
     /// Update the input of the player
@@ -64,5 +67,6 @@ public class UserInput : MonoBehaviour
         PreviousCaseInput = previousCaseAction.WasPressedThisFrame();
         NextCaseInput = nextCaseAction.WasPressedThisFrame();
         ConsumeItemInput = consumeItemAction.WasPressedThisFrame();
+        ChangeCheckpointInput = changeCheckpointAction.WasPressedThisFrame();
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -63,8 +64,11 @@ public class PlayerMovement: MonoBehaviour
 
     [Header("Particle")]
     public ParticleSystem particle;
+
+    [Header("Checkpoint")]
+    [SerializeField] private GameObject checkpoint;
     // [SerializeField] 
-   
+
     public static PlayerMovement instance = null;
     
 
@@ -237,8 +241,10 @@ public class PlayerMovement: MonoBehaviour
     {
         if (IsWalled() && !isWallJumping)
         {
+            Debug.Log("WallJump");
             isWallJumping = true;
             rb.velocity = new Vector2(-transform.localScale.x * wallJumpingPower.x, wallJumpingPower.y);
+            //rb.AddForce(new Vector2(-transform.localScale.x * wallJumpingPower.x, wallJumpingPower.y), ForceMode2D.Impulse);
             Flip();
             particle.Play();
             Invoke(nameof(StopWallJump),wallJumpingDuration);
@@ -280,6 +286,17 @@ public class PlayerMovement: MonoBehaviour
     {
         speed += speedAdd;
     }
-    //Collision
+   
 
+    public void SetCheckpoint(GameObject _checkpoint)
+    {
+        checkpoint = _checkpoint;
+    }
+    public void TpToLastCheckpoint( )
+    {
+        transform.position = checkpoint.transform.position;
+        //Death Screen
+        GameObject[] deathScreenGo = GameObject.FindObjectsOfType<GameObject>(true).Where(sr => sr.gameObject.activeInHierarchy && sr.CompareTag("DeathScreen")).ToArray();
+        deathScreenGo[0].gameObject.SetActive(false);
+    }
 }
