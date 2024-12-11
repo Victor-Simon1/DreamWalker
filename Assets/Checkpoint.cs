@@ -10,6 +10,7 @@ public class Checkpoint : MonoBehaviour
     {
         if(isOnCheckpoint && UserInput.instance.ChangeCheckpointInput)
         {
+            Debug.Log("New checkpoint");
             ChangeCheckpoint();
         }
     }
@@ -20,6 +21,7 @@ public class Checkpoint : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        
         if(isClickable)
             isOnCheckpoint = true;
     }

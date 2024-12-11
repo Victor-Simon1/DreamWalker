@@ -295,8 +295,22 @@ public class PlayerMovement: MonoBehaviour
     public void TpToLastCheckpoint( )
     {
         transform.position = checkpoint.transform.position;
-        //Death Screen
-        GameObject[] deathScreenGo = GameObject.FindObjectsOfType<GameObject>(true).Where(sr => sr.gameObject.activeInHierarchy && sr.CompareTag("DeathScreen")).ToArray();
-        deathScreenGo[0].gameObject.SetActive(false);
+        GetComponent<PlayerHealth>().Revive();
+    }
+
+
+    public void FreezePlayer()
+    {
+        //block movements
+        PlayerMovement.instance.enabled = false;
+        PlayerMovement.instance.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        //block interactions
+    }
+    public void UnFreezePlayer()
+    {
+        //block movements
+        PlayerMovement.instance.enabled = false;
+        PlayerMovement.instance.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+        //block interactions
     }
 }

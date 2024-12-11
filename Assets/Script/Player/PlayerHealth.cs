@@ -56,18 +56,28 @@ public class PlayerHealth : MonoBehaviour
             StartCoroutine(HandleInvisibilityDelay());
         }
     }
-
+    /// <summary>
+    /// Block movement and interactions when the player is dead
+    /// </summary>
     public void Death()
     {
         Debug.Log("Le joueur est mort !");
-        //block movements
-        PlayerMovement.instance.enabled = false;
-        PlayerMovement.instance.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-        //block interactions
+        PlayerMovement.instance.FreezePlayer();
 
         //Death Screen
         GameObject[] deathScreenGo = GameObject.FindObjectsOfType<GameObject>(true).Where(sr => !sr.gameObject.activeInHierarchy && sr.CompareTag("DeathScreen")).ToArray();
         deathScreenGo[0].gameObject.SetActive(true);
+    }
+    /// <summary>
+    /// Revive the player, inverse of death function
+    /// </summary>
+    public void Revive()
+    {
+        Debug.Log("Le joueur est mort !");
+        PlayerMovement.instance.UnFreezePlayer();
+        //Death Screen
+        GameObject[] deathScreenGo = GameObject.FindObjectsOfType<GameObject>(true).Where(sr => sr.gameObject.activeInHierarchy && sr.CompareTag("DeathScreen")).ToArray();
+        deathScreenGo[0].gameObject.SetActive(false);
     }
     public void HealPlayer(int amount)
     {
