@@ -6,6 +6,12 @@ public class Checkpoint : MonoBehaviour
 {
     [SerializeField] bool isOnCheckpoint;
     [SerializeField] bool isClickable = true;
+    ParticleSystem effect;
+
+    private void Start()
+    {
+        effect = transform.GetChild(1).gameObject.GetComponent<ParticleSystem>();
+    }
     private void Update()
     {
         if(isOnCheckpoint && UserInput.instance.ChangeCheckpointInput)
@@ -18,10 +24,15 @@ public class Checkpoint : MonoBehaviour
     public void ChangeCheckpoint()
     {
         PlayerMovement.instance.SetCheckpoint(gameObject);
+        StartAnimationCheckPoint();
+    }
+
+    private void StartAnimationCheckPoint()
+    {
+        effect.Play();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
         if(isClickable)
             isOnCheckpoint = true;
     }

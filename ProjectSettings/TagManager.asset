@@ -14,8 +14,8 @@ TagManager:
   - Water
   - UI
   - GroundCheck
-  - 
-  - 
+  - BoxCheck
+  - Destructible
   - 
   - 
   - 
@@ -40,15 +40,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
-    locked: 0
   - name: Background
     uniqueID: 2032626595
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0
   - name: Player
     uniqueID: 2853928351
     locked: 0
   - name: Foreground
     uniqueID: 1090191917
+    locked: 0
+  - name: Particle
+    uniqueID: 4198369781
     locked: 0

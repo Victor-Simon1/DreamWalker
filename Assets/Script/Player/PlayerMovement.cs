@@ -10,6 +10,7 @@ public class PlayerMovement: MonoBehaviour
     private PlayerInput input = null;
     [SerializeField] GameObject mesh;
     [SerializeField] Rigidbody2D rb;
+    public Rigidbody2D Rb {  get { return rb; } }
 
     private float horizontal = 0;
     [Header("Movement")]
@@ -27,6 +28,7 @@ public class PlayerMovement: MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
     public Transform groundCheck;
     public LayerMask groundLayer;
+    public LayerMask boxLayer;
     private bool doubleJump = false;
     [SerializeField] private GameObject jumpVueGO;
   
@@ -37,7 +39,7 @@ public class PlayerMovement: MonoBehaviour
     private bool isWallJumping;
     [SerializeField] private float wallJumpingDuration = 0.4f;
     [SerializeField] private float wallJumpingTime = 0.2f;
-    private Vector2 wallJumpingPower = new Vector2(7, 13);
+    private Vector2 wallJumpingPower = new Vector2(7, 15);
 
     [Header("JumpBuffering")]
     [SerializeField] float jumpBufferTime = 0.2f;
@@ -212,7 +214,7 @@ public class PlayerMovement: MonoBehaviour
     /// <returns></returns>
     private bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer) || Physics2D.OverlapCircle(groundCheck.position, 0.2f, boxLayer);
     }
     /// <summary>
     /// Verify if the player is against a wall
@@ -241,7 +243,7 @@ public class PlayerMovement: MonoBehaviour
     {
         if (IsWalled() && !isWallJumping)
         {
-            Debug.Log("WallJump");
+            //Debug.Log("WallJump");
             isWallJumping = true;
             rb.velocity = new Vector2(-transform.localScale.x * wallJumpingPower.x, wallJumpingPower.y);
             //rb.AddForce(new Vector2(-transform.localScale.x * wallJumpingPower.x, wallJumpingPower.y), ForceMode2D.Impulse);
@@ -296,6 +298,7 @@ public class PlayerMovement: MonoBehaviour
     {
         transform.position = checkpoint.transform.position;
         GetComponent<PlayerHealth>().Revive();
+        UnFreezePlayer();
     }
 
 
@@ -309,7 +312,7 @@ public class PlayerMovement: MonoBehaviour
     public void UnFreezePlayer()
     {
         //block movements
-        PlayerMovement.instance.enabled = false;
+        PlayerMovement.instance.enabled = true;
         PlayerMovement.instance.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
         //block interactions
     }
